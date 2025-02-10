@@ -30,7 +30,7 @@ const Create = () => {
           login()
             .then((res) => {
               const user = res.user;
-              console.log(user);
+              // console.log(user);
               Swal.fire("success", "Welcome", "success");
             })
             .catch((err) => {
@@ -43,6 +43,36 @@ const Create = () => {
       return true;
     }
   };
+
+  // validation
+  const validation = (category, prompt) => {
+    if (!category) {
+      Swal.fire(
+        "Select Category",
+        "Select a Category from the dropdown",
+        "error"
+      );
+      return false;
+    }
+    if (!prompt) {
+      Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
+      return false;
+    }
+    if (!prompt) {
+      Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
+      return false;
+    }
+    if (prompt.trim().length < 20) {
+      Swal.fire(
+        "Invalid Prompt",
+        "make your prompt bigger (minimum 20 character)",
+        "error"
+      );
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -51,32 +81,8 @@ const Create = () => {
     const form = e.target;
     const prompt = form.prompt.value;
     const category = form.category.value;
-    // validation starts
-    if (!category) {
-      Swal.fire(
-        "Select Category",
-        "Select a Category from the dropdown",
-        "error"
-      );
-      return;
-    }
-    if (!prompt) {
-      Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
-      return;
-    }
-    if (!prompt) {
-      Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
-      return;
-    }
-    if (prompt.trim().length < 20) {
-      Swal.fire(
-        "Invalid Prompt",
-        "make your prompt bigger (minimum 20 character)",
-        "error"
-      );
-      return;
-    }
-    //validation End
+
+    if (!validation(category, prompt)) return;
 
     console.log({ prompt, category });
     const finalPrompt = `imagine a ${category} : ${prompt}`;
