@@ -1,20 +1,19 @@
 import { Route, Routes } from "react-router";
-import Home from "./pages/Home/Home";
-import MainLayout from "./layout/MainLayout";
+import AppLayout from "./Layout/AppLayout";
+import Home from "./Pages/Home";
+import Create from "./Pages/Create";
 
-import About from "./pages/About";
-import ImageGenerate from "./pages/Home/ImageGenerate";
-
-const App = () => {
+function App() {
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />}></Route>
-        <Route path="generate-image" element={<ImageGenerate />}></Route>
-        <Route path="about" element={<About />}></Route>
-      </Route>
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<AppLayout></AppLayout>}>
+          <Route index element={<Home></Home>}></Route>
+          <Route path="/create" element={<Create></Create>}></Route>
+        </Route>
+      </Routes>
+    </>
   );
-};
+}
 
 export default App;
