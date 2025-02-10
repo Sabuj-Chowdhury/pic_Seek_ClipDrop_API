@@ -1,26 +1,19 @@
+import { Route, Routes } from "react-router";
+import Home from "./pages/Home/Home";
+import MainLayout from "./layout/MainLayout";
+
+import About from "./pages/About";
+import ImageGenerate from "./pages/Home/ImageGenerate";
+
 const App = () => {
   return (
-    <div>
-      <p className="text-7xl font-bold">Hello</p>
-
-      {/* modal */}
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button
-        className="btn"
-        onClick={() => document.getElementById("my_modal_2").showModal()}
-      >
-        open modal
-      </button>
-      <dialog id="my_modal_2" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click outside to close</p>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-    </div>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Home />}></Route>
+        <Route path="generate-image" element={<ImageGenerate />}></Route>
+        <Route path="about" element={<About />}></Route>
+      </Route>
+    </Routes>
   );
 };
 
