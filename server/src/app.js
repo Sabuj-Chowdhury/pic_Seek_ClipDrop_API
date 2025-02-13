@@ -1,0 +1,18 @@
+// definitions
+const express = require("express");
+const app = express();
+const cors = require("cors");
+
+// middlewares
+app.use(express.json());
+app.use(cors());
+
+// playground
+app.get("/", (req, res) => {
+  res.send({
+    status: 200,
+    message: "Helloooooooooooo!",
+  });
+});
+
+module.exports = app;
