@@ -2,6 +2,7 @@ import { useContext } from "react";
 import PageTitle from "../components/shared/PageTitle";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Create = () => {
   const { user, login } = useContext(AuthContext);
@@ -30,7 +31,7 @@ const Create = () => {
           login()
             .then((res) => {
               const user = res.user;
-              // console.log(user);
+              console.log(user);
               Swal.fire("success", "Welcome", "success");
             })
             .catch((err) => {
@@ -44,8 +45,8 @@ const Create = () => {
     }
   };
 
-  // validation
-  const validation = (category, prompt) => {
+  const validate = (prompt, category) => {
+    // validation starts
     if (!category) {
       Swal.fire(
         "Select Category",
@@ -70,25 +71,39 @@ const Create = () => {
       );
       return false;
     }
+    //validation End
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!checkUser()) return;
-
     const form = e.target;
     const prompt = form.prompt.value;
     const category = form.category.value;
 
-    if (!validation(category, prompt)) return;
+    if (!checkUser()) return;
+    if (!validate(prompt, category)) return;
 
     console.log({ prompt, category });
-    const finalPrompt = `imagine a ${category} : ${prompt}`;
-    console.log(finalPrompt);
-    return;
+    axios
+      .post("http://localhost:5000/api/v1/image/create", {
+        email: user?.email,
+        prompt,
+        category,
+        username: user?.displayName || "Anonymus",
+        userImg:
+          user?.photoURL ||
+          "https://img.icons8.com/?size=96&id=z-JBA_KtSkxG&format=png",
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+
+    // const blob = new Blob([buffer], { type: "image/jpeg" }); // Set correct MIME type
+    // const url = URL.createObjectURL(blob);
+    // console.log(url);
   };
+
   return (
     <div>
       <PageTitle>🌱Let&apos;s Create 🐦‍🔥</PageTitle>
